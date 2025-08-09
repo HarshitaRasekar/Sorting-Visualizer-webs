@@ -80,10 +80,20 @@ button{
 
     <!-- ==== Input Form ==== -->
     <form method="post" action="sort" style="margin-bottom:20px;">
-        <label>Enter numbers (comma separated):</label>
-        <input type="text" name="numbers" placeholder="e.g. 5,2,9,1" required />
-        <button type="submit">Sort</button>
-    </form>
+    <label>Enter numbers (comma separated):</label>
+    <input type="text" name="numbers" placeholder="e.g. 5,2,9,1" required />
+
+    <br><br>
+    <label>Select Algorithm:</label>
+    <select name="algorithm" required>
+        <option value="Bubble">Bubble Sort</option>
+        <option value="Selection">Selection Sort</option>
+        <option value="Insertion">Insertion Sort</option>
+    </select>
+
+    <br><br>
+    <button type="submit">Sort</button>
+</form>
 
     <!-- ==== Bars Area ==== -->
     <div id="bars"></div>
@@ -146,3 +156,4 @@ window.onload = ()=>{
 </div>
 </body>
 </html>
+
