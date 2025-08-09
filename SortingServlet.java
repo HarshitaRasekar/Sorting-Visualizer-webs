@@ -15,14 +15,15 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/sort")
 public class SortingServlet extends HttpServlet {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String input = request.getParameter("numbers");
+        String algorithm = request.getParameter("algorithm"); // Algorithm ka naam le raha hai
+
         String[] nums = input.split(",");
         int[] array = new int[nums.length];
 
@@ -30,11 +31,26 @@ public class SortingServlet extends HttpServlet {
             array[i] = Integer.parseInt(nums[i].trim());
         }
 
-        // Save to DB
+        // Save numbers to DB
         NumberDAO.saveInputArray(input);
 
-        List<SortStep> steps = SortingAlgorithm.getBubbleSortSteps(array);
+        // Select sorting algorithm
+        List<SortStep> steps;
+        switch (algorithm) {
+            case "Selection":
+                steps = SortingAlgorithm.getSelectionSortSteps(array);
+                break;
+            case "Insertion":
+                steps = SortingAlgorithm.getInsertionSortSteps(array);
+                break;
+            default: // Bubble sort by default
+                steps = SortingAlgorithm.getBubbleSortSteps(array);
+                break;
+        }
+
+        // Pass steps and algorithm name to JSP
         request.setAttribute("steps", steps);
+        request.setAttribute("algorithm", algorithm);
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 }
